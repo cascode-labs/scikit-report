@@ -1,2 +1,8 @@
 # scikit-report
-Generate technical reports with a variety of export formats
+Scikit-report is a Python library that generates well formatted technical reports and exports them to a variety of formats.  It has a model-view structure.  The client builds a model to provide the contents of the report.  The contents accept standard scientific Python datastructures as content such as Pandas dataframes and matplotlib plots.   Then either the default export view for each export format can be used or the client can select a specific view.
+
+Export Formats under development:
+- Power Point (.pptx)
+- Excel (.xlsx)
+- Qt for Python (GUI)
+
