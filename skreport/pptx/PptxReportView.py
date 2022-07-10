@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
 from pptx import Presentation
 from skreport.models.ReportModel import ReportModel
 from skreport.models.SlidePanelModel import SlidePanelModel
@@ -8,9 +8,9 @@ class PptxReportView:
    def __init__(self):
       pass
 
-   def export(self, report_model:ReportModel, path: os.PathLike):
+   def export(self, report_model:ReportModel, path: Union[str, os.PathLike]):
       self.presentation = Presentation()
-      self._add_title_slide(report_model.tile)
+      self._add_title_slide(report_model.title)
       self.presentation.save(str(path))
 
    def _add_title_slide(self,title: str, subtitle: Optional[str] = None):
@@ -36,4 +36,3 @@ class PptxReportView:
       if panel.content is str:
          text_frame = content_shape.text_frame
          text_frame.text = panel.content
-
