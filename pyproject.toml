@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
+requires = ["flit_core>=3.2"]
+build-backend = "flit_core.buildapi"
 
 [project]
 name = "scikit-report"
@@ -20,3 +20,6 @@ classifiers = [
 
 [project.urls]
 "homepage" = "https://github.com/cascode-labs/scikit-report"
+
+[tool.flit.module]
+name = "skreport"

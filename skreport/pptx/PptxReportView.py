@@ -11,6 +11,7 @@ class PptxReportView:
    def export(self, report_model:ReportModel, path: Union[str, os.PathLike]):
       self.presentation = Presentation()
       self._add_title_slide(report_model.title)
+      self._add_panels(report_model.panels)
       self.presentation.save(str(path))
 
    def _add_title_slide(self,title: str, subtitle: Optional[str] = None):
@@ -27,12 +28,33 @@ class PptxReportView:
          self._add_panel(panel)
 
    def _add_panel(self, panel: SlidePanelModel):
-      layout = self.presentation.slide.layouts[1]
+      layout = self.presentation.slide_layouts[1]
       slide = self.presentation.slides.add_slide(layout)
       shapes = slide.shapes
       title_shape = shapes.title
       title_shape.text = panel.title
       content_shape = shapes.placeholders[1]
-      if panel.content is str:
+      if isinstance(panel.content, str):
          text_frame = content_shape.text_frame
          text_frame.text = panel.content
+      #elif self._is_nested_str_list(panel.content):
+         
+         #text_frame.add_paragraph()
+      elif panel.content is not None:
+         raise Exception("Content not supported %s")
+
+   @staticmethod      
+   def _is_nested_str_list(input):
+      if not isinstance(input, list):
+         return False
+      for item in input:
+         if isinstance(item, list):
+            if not PptxReportView._is_nested_str_list(item):
+               return False
+         elif not isinstance(input, str):
+            return False
+      return True
+
+   @staticmethod
+   def _add_bulleted_list_content(content):
+      pass
