@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scikit-report"
+version = "0.0.1"
+authors = [
+   {name="Curtis Mayberry", email="Curtisma3@gmail.com"},
+]
+description = "A library for generating well formatted technical reports and exports them to a variety of formats"
+readme = "README.md"
+license = {file="LICENSE"}
+requires-python = ">=3.7"
+classifiers = [
+   "Programming Language :: Python :: 3",
+   "License :: OSI Approved :: MIT License",
+   "Operating System :: OS Independent",
+]
+
+[project.urls]
+"homepage" = "https://github.com/cascode-labs/scikit-report"
