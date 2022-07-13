@@ -1,16 +1,21 @@
 import os
-from typing import List, Optional, Union
-from pptx import Presentation
+from typing import List, Optional, Union, Type
+from pptx import Presentation as create_presentation
+from pptx.presentation import Presentation 
 from skreport.models.ReportModel import ReportModel
 from skreport.models.SlidePanelModel import SlidePanelModel
-from skreport.models.PictureContentModel import PictureContentModel
+from skreport.pptx.ContentViewABC import ContentViewABC
+from skreport.pptx.content_views import PPPTX_CONTENT_VIEWS
+
 
 class PptxReportView:
+   content_views: List[Type[ContentViewABC]] = []
+
    def __init__(self):
-      pass
+      self.presentation: Presentation
 
    def export(self, report_model:ReportModel, path: Union[str, os.PathLike]):
-      self.presentation = Presentation()
+      self.presentation: Presentation = create_presentation()
       self._add_title_slide(report_model.title)
       self._add_panels(report_model.panels)
       self.presentation.save(str(path))
@@ -34,55 +39,24 @@ class PptxReportView:
       shapes = slide.shapes
       title_shape = shapes.title
       title_shape.text = panel.title
-      content_shape = shapes.placeholders[1]
-      if isinstance(panel.content, str):
-         text_frame = content_shape.text_frame
-         text_frame.text = panel.content
-      # bulleted list content
-      elif panel.content is not None and \
-           self._is_nested_str_list(panel.content):
-         text_frame = content_shape.text_frame
-         self._add_bulleted_list_content(text_frame, panel.content)
-      elif isinstance(panel.content, PictureContentModel):
-         slide.shapes.add_picture(str(panel.content.path),
-            content_shape.left, content_shape.top)
-      elif panel.content is not None:
+      for content_view in self.content_views:
+         if content_view.is_view_model(panel.content):
+            view = content_view(panel.content)
+            view.create_content(slide)
+            break
+      else:
          raise SlideContentError("Content not supported")
 
-   @staticmethod      
-   def _is_nested_str_list(input):
-      if not isinstance(input, list):
-         return False
-      for item in input:
-         if isinstance(item, list):
-            if not PptxReportView._is_nested_str_list(item):
-               return False
-         elif not isinstance(item, str):
-            return False
-      return True
+   @classmethod
+   def register_content_view(cls, content_view_class: Type[ContentViewABC]) -> None:
+      cls.content_views.append(content_view_class)
 
-   @staticmethod
-   def _add_bulleted_list_content(text_frame, bullets: List[str]):
-      PptxReportView._add_bulleted_list_content_internal(text_frame, bullets, 
-                                                         level=0)
-   
-   @staticmethod
-   def _add_bulleted_list_content_internal(text_frame, bullets: list, 
-                                           level: int = 0):
-      for bullet in bullets:
-         if isinstance(bullet, str) and level == 0:
-            text_frame.text = bullet
-         elif isinstance(bullet, str) and level > 0:
-            p = text_frame.add_paragraph()
-            p.text = bullet
-            p.level = level
-         elif isinstance(bullet, list):
-            PptxReportView._add_bulleted_list_content_internal(
-               text_frame, bullet, level+1)
-         else:
-            raise Exception("Error with bulleted list format")
+   @classmethod
+   def register_content_views(cls, content_view_class_list: List[Type[ContentViewABC]]) -> None:
+      for content_view in content_view_class_list:
+         cls.register_content_view(content_view)
 
-   def _choose_picture_height()
+PptxReportView.register_content_views(PPPTX_CONTENT_VIEWS)
 
 class SlideContentError(Exception):
    pass
