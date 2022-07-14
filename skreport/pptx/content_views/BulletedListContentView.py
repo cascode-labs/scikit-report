@@ -35,7 +35,7 @@ class BulletedListContentView(ContentViewABC):
                                                          level=0)
    
    @staticmethod
-   def _add_bulleted_list_content_internal(text_frame, bullets: list, 
+   def _add_bulleted_list_content_internal(text_frame, bullets: list,
                                            level: int = 0) -> None:
       first_str = True
       for bullet in bullets:
