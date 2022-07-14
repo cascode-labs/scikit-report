@@ -37,10 +37,12 @@ class BulletedListContentView(ContentViewABC):
    @staticmethod
    def _add_bulleted_list_content_internal(text_frame, bullets: list, 
                                            level: int = 0) -> None:
+      first_str = True
       for bullet in bullets:
-         if isinstance(bullet, str) and level == 0:
+         if isinstance(bullet, str) and first_str:
             text_frame.text = bullet
-         elif isinstance(bullet, str) and level > 0:
+            first_str = False
+         elif isinstance(bullet, str) and not first_str:
             p = text_frame.add_paragraph()
             p.text = bullet
             p.level = level

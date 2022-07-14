@@ -1,4 +1,4 @@
-from skreport.pptx import PptxReportView as view
+from skreport.pptx.content_views import BulletedListContentView as view
 
 def test_is_nested_str_list_1item():
    assert view._is_nested_str_list(["single item"])
