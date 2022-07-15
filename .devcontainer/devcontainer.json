@@ -43,7 +43,12 @@
 			"extensions": [
 				"ms-python.python",
 				"ms-python.vscode-pylance",
-				"DavidAnson.vscode-markdownlint"
+				"DavidAnson.vscode-markdownlint",
+				"GitHub.vscode-pull-request-github",
+				"cschleiden.vscode-github-actions",
+				"donjayamanne.python-environment-manager",
+				"timonwong.shellcheck",
+				"redhat.vscode-yaml"
 			]
 		}
 	},
@@ -52,7 +57,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install --user -r requirements-dev.txt",
+	"postCreateCommand": "pip3 install --user -r requirements-dev.txt; git config --global --add safe.directory /workspaces/scikit-report",
 
 	// Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	"remoteUser": "vscode",
