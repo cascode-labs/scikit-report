@@ -1,3 +1,6 @@
+# scikit-report example output folder
+example_outputs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

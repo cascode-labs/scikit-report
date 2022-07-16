@@ -1,7 +1,6 @@
 from os import mkdir
 from pathlib import Path
 from importlib import resources
-import resource
 from skreport import export_pptx, ReportModel, SlidePanelModel
 from skreport.models.PictureContentModel import PictureContentModel
 from skreport import examples
@@ -37,5 +36,6 @@ if __name__ == "__main__":
             picture_slide,
          ]
       })
-      
-      export_pptx(report,"/workspaces/scikit-report/basic_example.pptx")
+      example_dir = Path("/workspaces/scikit-report/example_outputs")
+      mkdir(example_dir)
+      export_pptx(report, example_dir / "basic_example.pptx")

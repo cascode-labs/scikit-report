@@ -8,6 +8,13 @@ content such as Pandas dataframes and matplotlib plots.   Then either the
 default export view for each export format can be used or the client can
 select a specific view.
 
+## Example
+
+``` python
+    
+```
+## Plans
+
 Export Formats under development:
 
 - Power Point (.pptx)
@@ -15,6 +22,8 @@ Export Formats under development:
 - Qt for Python (GUI)
 
 Content types supported for Power Point export:
+
 - strings: Displayed in a paragraph
 - Nested lists of strings: Displayed as a bulleted list with the level being
 controlled by the nesting level
+

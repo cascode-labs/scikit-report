@@ -1,6 +1,9 @@
 -r requirements.txt
--e /workspaces/scikit-report
-pip==22.1
+-e --no-deps /workspaces/scikit-report
+# Testing
+pip == 22.1
+flit == 3.7
 pytest == 7.1
 pylint == 2.14
 mypy == 0.960
+# TODO: Documentation
